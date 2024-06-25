@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Purchase : MonoBehaviour
 {
-    [SerializeField]
+    public
     CanvasManager canvasManager;
     public string name = "";
     public float cost = 0f;
@@ -39,7 +39,7 @@ public class Purchase : MonoBehaviour
         Rewrite();
 
     }
-    void Rewrite()
+    public void Rewrite()
     {
         Name.text = name + "(lvl" + level + ")";
         string outputCost = Math.Round(cost, 2).ToString() + "₮";

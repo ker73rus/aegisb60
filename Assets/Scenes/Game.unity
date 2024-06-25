@@ -354,8 +354,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838777065}
   m_HandleRect: {fileID: 838777064}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999998
+  m_Value: 0.000030517578
+  m_Size: 0.99872446
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1451,10 +1451,10 @@ RectTransform:
   - {fileID: 1645666383}
   m_Father: {fileID: 251749350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000016689, y: 0.002697}
-  m_SizeDelta: {x: 800, y: 1455.7}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -660.4001}
+  m_SizeDelta: {x: 800, y: 1320.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909682444
 MonoBehaviour:
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   ByClick: {fileID: 1992650690}
   ToastText: {fileID: 88852254}
   ToastPanel: {fileID: 1731696481}
-  upgrade: {fileID: 0}
+  upgrade: {fileID: 3069041934359422022, guid: 44546c20bb10524468a9e164fcd9e5fe, type: 3}
   ScrollViewContent: {fileID: 1375792071}
 --- !u!1 &1375792071
 GameObject:
@@ -2309,10 +2309,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 385698017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000091552734}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -391.5, y: 700.00006}
+  m_SizeDelta: {x: 784, y: 700}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1459879717
 GameObject:

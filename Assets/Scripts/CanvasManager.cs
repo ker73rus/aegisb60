@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Firebase;
 using Firebase.Firestore;
 using Firebase.Extensions;
+using Unity.VisualScripting;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -44,13 +45,24 @@ public class CanvasManager : MonoBehaviour
     IEnumerator starting()
     {
         yield return new WaitForSeconds(3);
-        upgrades = global.GetUpgrade();
+        global.GetUpgrade();
+        yield return new WaitForSeconds(3);
         if (upgrades != null)
         {
             int c = 0;
             foreach (var item in upgrades)
             {
-                GameObject i = Instantiate(upgrade, new Vector2(0, c * 5), Quaternion.identity, ScrollViewContent.transform);
+                Vector3 scr = ScrollViewContent.transform.position;
+                GameObject i = Instantiate(upgrade, scr + new Vector3(520, -c * 300 - 200), Quaternion.identity, ScrollViewContent.transform);
+                Purchase purchase = i.GetComponent<Purchase>();
+                purchase.level = item.lvl;
+                purchase.boost= item.Boost;
+                purchase.cost = item.Cost;
+                purchase.name = item.Name;
+                purchase.tier = item.tier;
+                purchase.type = item.type;
+                purchase.Rewrite();
+                purchase.canvasManager = this;
                 c++;
             }
         }
@@ -119,7 +131,6 @@ public class CanvasManager : MonoBehaviour
         Game.SetActive(false);
         Profile.SetActive(false);
         Shop.SetActive(true);
-        Start();
     }
     public void toGame()
     {

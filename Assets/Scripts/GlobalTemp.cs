@@ -55,7 +55,7 @@ public class GlobalTemp:MonoBehaviour
                 Debug.Log("Upgrade update");
             });
     }
-    public Upgrade[] GetUpgrade()
+    public void GetUpgrade()
     {
         List<Upgrade> result = new List<Upgrade>();
         db.Collection("Upgrades").GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -64,9 +64,8 @@ public class GlobalTemp:MonoBehaviour
             {
                 result.Add(item.ConvertTo<Upgrade>());
             }
-            return result.ToArray();
+            canvas.upgrades = result.ToArray();
         });
-        return GetUpgrade();
         
     }
 
