@@ -24,6 +24,7 @@ public class Purchase : MonoBehaviour
     TextMeshProUGUI Boost;
     [SerializeField]
     Image image;
+
     void Start()
     {
         switch (tier)
@@ -78,6 +79,7 @@ public class Purchase : MonoBehaviour
                 cost *= 2.5f;
                 boost *=1.2f;
                 level++;
+                canvasManager.global.UpgradeUpdate(new Upgrade { Name = name, Cost= cost, Boost = boost,tier = tier, lvl = level,type = type });
                 Rewrite();
             }
             else

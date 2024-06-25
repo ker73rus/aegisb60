@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using Firebase;
+using Firebase.Firestore;
+using Firebase.Extensions;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -27,19 +30,41 @@ public class CanvasManager : MonoBehaviour
     [SerializeField]
     GameObject ToastPanel;
 
+    [SerializeField]
+    GameObject upgrade;
 
+    [SerializeField]
+    GameObject ScrollViewContent;
+    public Upgrade[] upgrades = null;
+
+    private void Start()
+    {
+        StartCoroutine(starting());
+    }
+    IEnumerator starting()
+    {
+        yield return new WaitForSeconds(3);
+        upgrades = global.GetUpgrade();
+        if (upgrades != null)
+        {
+            int c = 0;
+            foreach (var item in upgrades)
+            {
+                GameObject i = Instantiate(upgrade, new Vector2(0, c * 5), Quaternion.identity, ScrollViewContent.transform);
+                c++;
+            }
+        }
+    }
     public void ChangeScore(float score)
     {
         string output = Math.Round(score, 2).ToString();
         if (score >= 1000000)
         {
-            score = score / 1000000;
-            output = Math.Round(score, 2).ToString() + "kk";
+            output = Math.Round(score / 1000000, 2).ToString() + "kk";
         }
         else if (score >= 1000)
         {
-            score = score / 1000;
-            output = Math.Round(score, 2).ToString() + "k";
+            output = Math.Round(score / 1000, 2).ToString() + "k";
         }
         
 
@@ -94,6 +119,7 @@ public class CanvasManager : MonoBehaviour
         Game.SetActive(false);
         Profile.SetActive(false);
         Shop.SetActive(true);
+        Start();
     }
     public void toGame()
     {

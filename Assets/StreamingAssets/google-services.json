@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "55867821044",
+    "project_id": "aegisb60-96ad9",
+    "storage_bucket": "aegisb60-96ad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55867821044:android:429991ec18bf5924e087a1",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.com.unity.template.mobile2D"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnMgQT4t8F93P-J4HRf9zFkVg_tw44bfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
