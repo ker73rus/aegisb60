@@ -4,11 +4,11 @@ using Firebase.Firestore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class GlobalTemp:MonoBehaviour
 {
+    private bool vip = false;
     [SerializeField] CanvasManager canvas;
     [SerializeField] float score = 1;
     int count = 0;
@@ -44,7 +44,34 @@ public class GlobalTemp:MonoBehaviour
         }
     }
     FirebaseFirestore db;
+    IEnumerator startAd()
+    {
+        while (!vip)
+        {
+            yield return new WaitForSeconds(5);
+            canvas.ShowAd();
+            yield return new WaitForSeconds(300);
+        }
 
+    }
+    IEnumerator PerSecUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(1);
+            Score += PerSec;
+            User user = new User
+            {
+                Score = Score,
+                PerSec = PerSec,
+                ByClick = ByClick
+            };
+            db.Collection("users").Document("user").SetAsync(user).ContinueWithOnMainThread(task =>
+            {
+                Debug.Log("updated");
+            });
+        }
+    }
 
 
     public void UpgradeUpdate(Upgrade upgrade)
@@ -52,7 +79,12 @@ public class GlobalTemp:MonoBehaviour
         if(upgrade.type)
             db.Collection("Upgrades").Document("ByClick"+upgrade.tier).SetAsync(upgrade).ContinueWithOnMainThread(task =>
             {
-                Debug.Log("Upgrade update");
+                Debug.Log("Upgrade update byclick");
+            });
+        else
+            db.Collection("Upgrades").Document("PerSec" + upgrade.tier).SetAsync(upgrade).ContinueWithOnMainThread(task =>
+            {
+                Debug.Log("Upgrade update persec");
             });
     }
     public void GetUpgrade()
@@ -83,6 +115,8 @@ public class GlobalTemp:MonoBehaviour
         canvas.ChangeScore(Score);
         canvas.ChangeByClick(ByClick);
         canvas.ChangePerSec(PerSec);
+        StartCoroutine(PerSecUpdate());
+        StartCoroutine(startAd());
     }
 
     public void Click()
@@ -100,12 +134,16 @@ public class GlobalTemp:MonoBehaviour
         {
             Debug.Log("updated");
         });
-        //canvas.ChangeScore(score);
     }
     public bool Buy(float cost, Boolean type, float boost)
     {
         if (type)
         {
+            if(boost == 0)
+            {
+                vip = true;
+                return true;
+            }
             if(score - cost >= 0)
             {
                 ByClick += boost;
@@ -120,6 +158,14 @@ public class GlobalTemp:MonoBehaviour
 
         }
         else {
-            return false; }
+            if(score - cost >= 0)
+            {
+                PerSec += boost; Score -= cost; return true;
+            }
+            else {
+                canvas.Toast("You need " + (cost - score) + "₮");
+                return false;
+            }
+        }
     }
 }

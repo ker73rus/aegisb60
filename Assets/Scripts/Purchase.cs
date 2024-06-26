@@ -27,21 +27,31 @@ public class Purchase : MonoBehaviour
 
     void Start()
     {
-        switch (tier)
-        {
-            case 1: name += " I";
-                break;
-            case 2: name += " II";
-                break;
-            case 3: name += " III";
-                break;
-        }
+       
         Rewrite();
 
     }
     public void Rewrite()
     {
-        Name.text = name + "(lvl" + level + ")";
+        switch (tier)
+        {
+            case 1:
+                Name.text = name + " I";
+                Name.text += "(lvl" + level + ")";
+                break;
+            case 2:
+                Name.text = name + " II";
+                Name.text += "(lvl" + level + ")";
+                break;
+            case 3:
+                Name.text = name + " III";
+                Name.text += "(lvl" + level + ")";
+                break;
+            default:
+                Name.text = name;
+                break;
+        }
+
         string outputCost = Math.Round(cost, 2).ToString() + "₮";
         if (cost >= 1000000)
         {
@@ -55,18 +65,27 @@ public class Purchase : MonoBehaviour
         string outputBoost = Math.Round(boost, 2).ToString() + "₮";
         if (boost >= 1000000)
         {
-            outputBoost = Math.Round(boost / 1000000, 2).ToString() + "kk₮";
+            outputBoost = "+" + Math.Round(boost / 1000000, 2).ToString() + "kk₮";
         }
         else if (boost >= 1000)
         {
-            outputBoost = Math.Round(boost / 1000, 2).ToString() + "k₮";
+            outputBoost = "+" + Math.Round(boost / 1000, 2).ToString() + "k₮";
+        }
+        else if(boost <= 0)
+        {
+            outputBoost = "";
         }
         Cost.text = outputCost;
-        Boost.text = "+" + outputBoost;
+        Boost.text = outputBoost;
         if (type)
-            image.sprite = Resources.Load<Sprite>("Sprites/byclick.png");
+            image.sprite = Resources.Load<Sprite>("Sprites/byclick");
         else
-            image.sprite = Resources.Load<Sprite>("Sprites/persec.png");
+            image.sprite = Resources.Load<Sprite>("Sprites/persec");
+
+        if (tier == 0)
+        {
+            image.sprite = Resources.Load<Sprite>("Sprites/delad");
+        }
     }
     public void BuyClick()
     {

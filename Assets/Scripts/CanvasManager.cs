@@ -9,6 +9,7 @@ using Firebase;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using Unity.VisualScripting;
+using System.Drawing;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -36,6 +37,12 @@ public class CanvasManager : MonoBehaviour
 
     [SerializeField]
     GameObject ScrollViewContent;
+
+
+    [SerializeField]
+    GameObject AdPanel;
+    [SerializeField]
+    GameObject AdPanelExit;
     public Upgrade[] upgrades = null;
 
     private void Start()
@@ -44,16 +51,16 @@ public class CanvasManager : MonoBehaviour
     }
     IEnumerator starting()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0.5f);
         global.GetUpgrade();
-        yield return new WaitForSeconds(3);
-        if (upgrades != null)
+        yield return new WaitForSeconds(0.5f);
+        if (upgrades != null)   
         {
             int c = 0;
             foreach (var item in upgrades)
             {
                 Vector3 scr = ScrollViewContent.transform.position;
-                GameObject i = Instantiate(upgrade, scr + new Vector3(520, -c * 300 - 200), Quaternion.identity, ScrollViewContent.transform);
+                GameObject i = Instantiate(upgrade, scr + new Vector3(160, -c * 80 - 50), Quaternion.identity, ScrollViewContent.transform);
                 Purchase purchase = i.GetComponent<Purchase>();
                 purchase.level = item.lvl;
                 purchase.boost= item.Boost;
@@ -120,6 +127,21 @@ public class CanvasManager : MonoBehaviour
         ByClick.text = "ByClick: " + output + "₮";
     }
 
+    public void ShowAd()
+    {
+        StartCoroutine(ShowAdPanel());
+    }
+    IEnumerator ShowAdPanel()
+    {
+        AdPanel.SetActive(true);
+        yield return new WaitForSeconds(5);
+        AdPanelExit.SetActive(true);
+    }
+
+    public void CloseAd()
+    {
+        AdPanel.SetActive(false);
+    }
 
     public void Click()
     {
@@ -156,22 +178,24 @@ public class CanvasManager : MonoBehaviour
     {
         Image rect = ToastPanel.GetComponent<Image>();
         ToastPanel.SetActive(true);
-        while (rect.fillAmount < 1)
+        TextMeshProUGUI text = ToastText.GetComponent<TextMeshProUGUI>();
+        while (rect.color.a < 1)
         {
-            rect.fillAmount += 0.02f;
-            if (rect.fillAmount > 0.5f) { ToastText.SetActive(true); }
-            yield return new WaitForSeconds(0.01f);
+            rect.color += new UnityEngine.Color(0,0,0,0.05f) ;
+            text.color += new UnityEngine.Color(0, 0, 0, 0.05f);
+            yield return new WaitForSeconds(0.02f);
         }
         ;
-        ToastText.GetComponent<TextMeshProUGUI>().text = message;
-        yield return new WaitForSeconds(0.75f);
+        text.text = message;
+        yield return new WaitForSeconds(1.5f);
         ToastText.GetComponent<TextMeshProUGUI>().text = "";
-        ToastText.SetActive(false);
-        while (rect.fillAmount > 0)
+
+        while (rect.color.a > 0)
         {
-            rect.fillAmount -= 0.02f;
-            if (rect.fillAmount < 0.5f) ToastText.SetActive(false);
-            yield return new WaitForSeconds(0.01f);
+            rect.color -= new UnityEngine.Color(0, 0, 0, 0.05f);
+            text.faceColor -= new UnityEngine.Color(0, 0, 0, 0.05f);
+
+            yield return new WaitForSeconds(0.02f);
         }
         ToastPanel.SetActive(false);
     }
